@@ -1,7 +1,8 @@
 package com.scrumtrek.simplestore;
 
+//todo - отсутствует описание применения
 public enum PriceCodes {
-	Regular,
+	Regular,//todo - нарушены code conventions для констант
 	NewRelease,
-	Childrens
+	Childrens//todo - орфографическая ошибка - children
 }

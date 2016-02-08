@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
+	//todo - код конвеншены в названиях - 5
 	private String m_Name;
 	private List<Rental> m_Rentals = new ArrayList<Rental>();
 
@@ -11,6 +12,7 @@ public class Customer {
 		m_Name = name;
 	}
 
+	//todo - не используется - 2
 	public String getName() {
 		return m_Name;
 	}
@@ -20,23 +22,25 @@ public class Customer {
 		m_Rentals.add(arg);
 	}
 
+	//todo - неинформативное название метода - 3, метод написан с большой буквы - 4.
 	public String Statement()
 	{
 		double totalAmount = 0;
 		int frequentRenterPoints = 0;
 				
 		String result = "Rental record for " + m_Name + "\n";
-		
+
+		//todo - название each
 		for(Rental each: m_Rentals) {
-			double thisAmount = 0;
+			double thisAmount = 0; //todo -  использование слова this в названии
 			
 			// Determine amounts for each line
 			switch(each.getMovie().getPriceCode()) {
 				case Regular:
-					thisAmount += 2;
+					thisAmount += 2; //todo - magic numbers 1
 					if (each.getDaysRented() > 2)
 					{
-						thisAmount += (each.getDaysRented() - 2) * 1.5;
+						thisAmount += (each.getDaysRented() - 2) * 1.5; //todo - magic numbers 1
 					}
 					break;
 	
@@ -51,13 +55,15 @@ public class Customer {
 						thisAmount = (each.getDaysRented() - 3) * 1.5;
 					}
 					break;
+
+				//todo - отсутствует обработка варианта по умолчанию - 1
 			}
 
 			// Add frequent renter points
-			frequentRenterPoints++;
+			frequentRenterPoints++;//todo - комментарии дублируют название переменной
 
 			// Add bonus for a two-day new-release rental
-			if ((each.getMovie().getPriceCode() == PriceCodes.NewRelease) && (each.getDaysRented() > 1))
+			if ((each.getMovie().getPriceCode() == PriceCodes.NewRelease) && (each.getDaysRented() > 1)) //todo - сложное выражение в условном операторе
 			{
 				frequentRenterPoints ++;
 			}

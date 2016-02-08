@@ -1,7 +1,7 @@
 package com.scrumtrek.simplestore;
 
 class MainClass {
-	 static void Main(String[] args) {
+	public static void main(String[] args) { //todo - psvm - 1 - невозможно запустить программу
 		// Create movies
 		Movie movCinderella = new Movie("Cinderella", PriceCodes.Childrens);
 		Movie movStarWars = new Movie("Star Wars", PriceCodes.Regular);
@@ -9,8 +9,8 @@ class MainClass {
 
 		// Create customers
 		Customer custMickeyMouse = new Customer("Mickey Mouse");
-		Customer custDonaldDuck = new Customer("Donald Duck");
-		Customer custMinnieMouse = new Customer("Minnie Mouse");
+		Customer custDonaldDuck = new Customer("Donald Duck"); //todo - неиспользуемые строки
+		Customer custMinnieMouse = new Customer("Minnie Mouse");//todo - неиспользуемые строки
 
 		// Create rentals
 		Rental rental1 = new Rental(movCinderella, 5);

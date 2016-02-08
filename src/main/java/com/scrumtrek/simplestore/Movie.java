@@ -12,7 +12,8 @@ public class Movie {
 	public PriceCodes getPriceCode()	{
 		return m_PriceCode;
 	}
-	
+
+	//todo - инициализация происходит в конструкторе
 	public void setPriceCode(PriceCodes value) {
 		m_PriceCode = value;
 	}
