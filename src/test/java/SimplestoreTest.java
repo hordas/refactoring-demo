@@ -13,7 +13,7 @@ import static junit.framework.Assert.assertTrue;
 public class SimplestoreTest {
 
     final String MOVIE_TITLE = "movie_name";
-    final PriceCodes MOVIE_PRICE_CODE = PriceCodes.Childrens;
+    final PriceCodes MOVIE_PRICE_CODE = PriceCodes.CHILDRENS;
 
 
     @org.junit.Test
@@ -26,7 +26,7 @@ public class SimplestoreTest {
     @org.junit.Test
     public void testMovieSetter() {
         Movie movie = new Movie(MOVIE_TITLE, MOVIE_PRICE_CODE);
-        final PriceCodes NEW_PRICE_CODE = PriceCodes.NewRelease;
+        final PriceCodes NEW_PRICE_CODE = PriceCodes.NEW_RELEASE;
         movie.setPriceCode(NEW_PRICE_CODE);
         assertTrue(NEW_PRICE_CODE.equals(movie.getPriceCode()));
     }
@@ -47,7 +47,7 @@ public class SimplestoreTest {
         final int RENTAL_DAYS = 5;
         final String MOVIE_NAME = "Cinderella";
         Customer customer = new Customer(CUSTOMER_NAME);
-        final PriceCodes CINDERELLA_CODE = PriceCodes.Childrens;
+        final PriceCodes CINDERELLA_CODE = PriceCodes.CHILDRENS;
         Movie movCinderella = new Movie(MOVIE_NAME, CINDERELLA_CODE);
         Rental rental1 = new Rental(movCinderella, RENTAL_DAYS);
         customer.addRental(rental1);
@@ -57,7 +57,7 @@ public class SimplestoreTest {
         String expectedResult = "Rental record for PIG\n" +
                 "\t" + MOVIE_NAME + "\t" + expectedAmount + "\nAmount owed is " + expectedAmount + "\nYou earned "
                 + eveluateFrequentRenterPoints(CINDERELLA_CODE, RENTAL_DAYS) + " frequent renter points.";
-        assertEquals(expectedResult, customer.Statement());
+        assertEquals(expectedResult, customer.printStatement());
     }
 
     private double evaluateChildren(int days) {
@@ -74,7 +74,7 @@ public class SimplestoreTest {
     private int eveluateFrequentRenterPoints(PriceCodes codes, int days) {
         // Add bonus for a two-day new-release rental
         int frequentRenterPoints = 1;
-        if ((codes == PriceCodes.NewRelease) && (days > 1))
+        if ((codes == PriceCodes.NEW_RELEASE) && (days > 1))
         {
             frequentRenterPoints ++;
         }

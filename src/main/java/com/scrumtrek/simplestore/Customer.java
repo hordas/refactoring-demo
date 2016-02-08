@@ -4,77 +4,100 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
-	//todo - код конвеншены в названиях - 5
-	private String m_Name;
-	private List<Rental> m_Rentals = new ArrayList<Rental>();
+	public static final int REGULAR_PRICE = 2;
+	public static final int REGULAR_DAYS_LIMIT = 2;
+	public static final double REGULAR_COEFFICIENT = 1.5;
+	public static final int NEW_RELEASE_PRICE = 3;
+	public static final double CHILDREN_PRICE = 1.5;
+	public static final int CHILDREN_DAYS_LIMIT = 3;
+	public static final double CHILDREN_COEFFICIENT = 1.5;
 
-	public Customer(String name) {
-		m_Name = name;
+	private String customerName;
+	private List<Rental> movieRentals = new ArrayList<Rental>();
+	private double totalAmount;
+	private int frequentRenterPoints;
+
+
+	public Customer(String customerName) {
+		this.customerName = customerName;
 	}
 
-	//todo - не используется - 2
-	public String getName() {
-		return m_Name;
+	public String getCustomerName() {
+		return customerName;
 	}
 
 
 	public void addRental(Rental arg){
-		m_Rentals.add(arg);
+		movieRentals.add(arg);
 	}
 
-	//todo - неинформативное название метода - 3, метод написан с большой буквы - 4.
-	public String Statement()
-	{
-		double totalAmount = 0;
-		int frequentRenterPoints = 0;
-				
-		String result = "Rental record for " + m_Name + "\n";
+	public void evaluateStatement() {
+		totalAmount = 0;
+		frequentRenterPoints = 0;
 
-		//todo - название each
-		for(Rental each: m_Rentals) {
-			double thisAmount = 0; //todo -  использование слова this в названии
-			
-			// Determine amounts for each line
-			switch(each.getMovie().getPriceCode()) {
-				case Regular:
-					thisAmount += 2; //todo - magic numbers 1
-					if (each.getDaysRented() > 2)
-					{
-						thisAmount += (each.getDaysRented() - 2) * 1.5; //todo - magic numbers 1
-					}
-					break;
-	
-				case NewRelease:
-					thisAmount += each.getDaysRented() * 3;
-					break;
-	
-				case Childrens:
-					thisAmount += 1.5;
-					if (each.getDaysRented() > 3)
-					{
-						thisAmount = (each.getDaysRented() - 3) * 1.5;
-					}
-					break;
+		for(Rental rental: movieRentals) {
+			double thisAmount = evaluateRentalAmount(rental);
 
-				//todo - отсутствует обработка варианта по умолчанию - 1
-			}
+			frequentRenterPoints++;
 
-			// Add frequent renter points
-			frequentRenterPoints++;//todo - комментарии дублируют название переменной
+			frequentRenterPoints = addBonusForTwoDayNewRelease(frequentRenterPoints, rental);
 
-			// Add bonus for a two-day new-release rental
-			if ((each.getMovie().getPriceCode() == PriceCodes.NewRelease) && (each.getDaysRented() > 1)) //todo - сложное выражение в условном операторе
-			{
-				frequentRenterPoints ++;
-			}
-
-			// Show figures for this rental
-			result += "\t" + each.getMovie().getTitle() + "\t" + thisAmount + "\n";
 			totalAmount += thisAmount;
 		}
+	}
 
-		// Add footer lines
-		result += "Amount owed is " + totalAmount + "\n";
+	public String printStatement() {
+		String result = "Rental record for " + customerName + "\n";
+		for (Rental rental : movieRentals) {
+			result += printMovieDetails(rental, evaluateRentalAmount(rental));
+		}
+		evaluateStatement();
+		result += addFooterLines(totalAmount, frequentRenterPoints);
+		return result;
+	}
+
+	private double evaluateRentalAmount(Rental rental) {
+		double thisAmount = 0;
+
+		// Determine amounts for rental line
+		switch(rental.getMovie().getPriceCode()) {
+            case REGULAR:
+                thisAmount += REGULAR_PRICE;
+                if (rental.getDaysRented() > REGULAR_DAYS_LIMIT) {
+                    thisAmount += (rental.getDaysRented() - REGULAR_DAYS_LIMIT) * REGULAR_COEFFICIENT;
+                }
+                break;
+
+            case NEW_RELEASE:
+                thisAmount += rental.getDaysRented() * NEW_RELEASE_PRICE;
+                break;
+
+            case CHILDRENS:
+                thisAmount += CHILDREN_PRICE;
+                if (rental.getDaysRented() > CHILDREN_DAYS_LIMIT) {
+                    thisAmount = (rental.getDaysRented() - CHILDREN_DAYS_LIMIT) * CHILDREN_COEFFICIENT;
+                }
+                break;
+
+			default:
+				throw new IllegalArgumentException("Not supported Price Code: " + rental.getMovie().getPriceCode());
+        }
+		return thisAmount;
+	}
+
+	private int addBonusForTwoDayNewRelease(int frequentRenterPoints, Rental each) {
+		if ((each.getMovie().getPriceCode() == PriceCodes.NEW_RELEASE) && (each.getDaysRented() > 1)) {
+            frequentRenterPoints ++;
+        }
+		return frequentRenterPoints;
+	}
+
+	private String printMovieDetails(Rental rental, double thisAmount) {
+		return "\t" + rental.getMovie().getTitle() + "\t" + thisAmount + "\n";
+	}
+
+	private String addFooterLines(double totalAmount, int frequentRenterPoints) {
+		String result = "Amount owed is " + totalAmount + "\n";
 		result += "You earned " + frequentRenterPoints + " frequent renter points.";
 		return result;
 	}
