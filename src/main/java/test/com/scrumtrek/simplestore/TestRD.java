@@ -38,7 +38,8 @@ public class TestRD {
         Movie movie = new Movie(MOVIE_TITLE, MOVIE_PRICE_CODE);
         final int DAYS_RENTAL = 7;
         Rental rental = new Rental(movie, DAYS_RENTAL);
-        assertEquals("Movie price codes are not equal", MOVIE_PRICE_CODE, movie.getPriceCode());
-        assertEquals("Movie titles are not equal", MOVIE_TITLE, movie.getTitle());
+        assertEquals(DAYS_RENTAL, rental.getDaysRented());
+        assertEquals("Movie price codes are not equal", MOVIE_PRICE_CODE, rental.getMovie().getPriceCode());
+        assertEquals("Movie titles are not equal", MOVIE_TITLE, rental.getMovie().getTitle());
     }
 }
