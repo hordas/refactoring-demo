@@ -13,7 +13,7 @@ public class Customer {
 	public static final double CHILDREN_COEFFICIENT = 1.5;
 
 	private String customerName;
-	private List<Rental> movieRentals = new ArrayList<Rental>();
+	private List<Rental> movieRentals = new ArrayList<>();
 	private double totalAmount;
 	private int frequentRenterPoints;
 
@@ -40,7 +40,7 @@ public class Customer {
 
 			frequentRenterPoints++;
 
-			frequentRenterPoints = addBonusForTwoDayNewRelease(frequentRenterPoints, rental);
+			frequentRenterPoints = addBonusForTwoDayNewRelease(rental);
 
 			totalAmount += thisAmount;
 		}
@@ -62,21 +62,15 @@ public class Customer {
 		// Determine amounts for rental line
 		switch(rental.getMovie().getPriceCode()) {
             case REGULAR:
-                thisAmount += REGULAR_PRICE;
-                if (rental.getDaysRented() > REGULAR_DAYS_LIMIT) {
-                    thisAmount += (rental.getDaysRented() - REGULAR_DAYS_LIMIT) * REGULAR_COEFFICIENT;
-                }
+				thisAmount = evaluateRegularAmount(rental, thisAmount);
                 break;
 
             case NEW_RELEASE:
-                thisAmount += rental.getDaysRented() * NEW_RELEASE_PRICE;
-                break;
+				thisAmount = evaluateNewReleaseAmount(rental, thisAmount);
+				break;
 
             case CHILDRENS:
-                thisAmount += CHILDREN_PRICE;
-                if (rental.getDaysRented() > CHILDREN_DAYS_LIMIT) {
-                    thisAmount = (rental.getDaysRented() - CHILDREN_DAYS_LIMIT) * CHILDREN_COEFFICIENT;
-                }
+				thisAmount = evaluateChildrenAmount(rental, thisAmount);
                 break;
 
 			default:
@@ -85,7 +79,28 @@ public class Customer {
 		return thisAmount;
 	}
 
-	private int addBonusForTwoDayNewRelease(int frequentRenterPoints, Rental each) {
+	private double evaluateChildrenAmount(Rental rental, double thisAmount) {
+		thisAmount += CHILDREN_PRICE;
+		if (rental.getDaysRented() > CHILDREN_DAYS_LIMIT) {
+            thisAmount = (rental.getDaysRented() - CHILDREN_DAYS_LIMIT) * CHILDREN_COEFFICIENT;
+        }
+		return thisAmount;
+	}
+
+	private double evaluateNewReleaseAmount(Rental rental, double thisAmount) {
+		thisAmount += rental.getDaysRented() * NEW_RELEASE_PRICE;
+		return thisAmount;
+	}
+
+	private double evaluateRegularAmount(Rental rental, double thisAmount) {
+		thisAmount += REGULAR_PRICE;
+		if (rental.getDaysRented() > REGULAR_DAYS_LIMIT) {
+            thisAmount += (rental.getDaysRented() - REGULAR_DAYS_LIMIT) * REGULAR_COEFFICIENT;
+        }
+		return thisAmount;
+	}
+
+	private int addBonusForTwoDayNewRelease(Rental each) {
 		if ((each.getMovie().getPriceCode() == PriceCodes.NEW_RELEASE) && (each.getDaysRented() > 1)) {
             frequentRenterPoints ++;
         }

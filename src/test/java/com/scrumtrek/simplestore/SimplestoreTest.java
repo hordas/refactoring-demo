@@ -39,7 +39,26 @@ public class SimplestoreTest {
     }
 
     @org.junit.Test
-    public void testCustomer() {
+    public void testChildrenLessThenLimit() {
+        final String CUSTOMER_NAME = "PIG";
+        final int RENTAL_DAYS = 2;
+        final String MOVIE_NAME = "Cinderella";
+        Customer customer = new Customer(CUSTOMER_NAME);
+        final PriceCodes CINDERELLA_CODE = PriceCodes.CHILDRENS;
+        Movie movCinderella = new Movie(MOVIE_NAME, CINDERELLA_CODE);
+        Rental rental1 = new Rental(movCinderella, RENTAL_DAYS);
+        customer.addRental(rental1);
+
+        double expectedAmount = evaluateChildren(RENTAL_DAYS);
+
+        String expectedResult = "Rental record for PIG\n" +
+                "\t" + MOVIE_NAME + "\t" + expectedAmount + "\nAmount owed is " + expectedAmount + "\nYou earned "
+                + eveluateFrequentRenterPoints(CINDERELLA_CODE, RENTAL_DAYS) + " frequent renter points.";
+        assertEquals(expectedResult, customer.printStatement());
+    }
+
+    @org.junit.Test
+    public void testChildrenMoreThenLimit() {
         final String CUSTOMER_NAME = "PIG";
         final int RENTAL_DAYS = 5;
         final String MOVIE_NAME = "Cinderella";
@@ -57,14 +76,82 @@ public class SimplestoreTest {
         assertEquals(expectedResult, customer.printStatement());
     }
 
+    @org.junit.Test
+    public void testRegularMoreThenLimit() {
+        final String CUSTOMER_NAME = "PIG";
+        final int RENTAL_DAYS = 5;
+        final String MOVIE_NAME = "Cinderella";
+        Customer customer = new Customer(CUSTOMER_NAME);
+        final PriceCodes CINDERELLA_CODE = PriceCodes.REGULAR;
+        Movie movCinderella = new Movie(MOVIE_NAME, CINDERELLA_CODE);
+        Rental rental1 = new Rental(movCinderella, RENTAL_DAYS);
+        customer.addRental(rental1);
+
+        double expectedAmount = evaluateRegular(RENTAL_DAYS);
+
+        String expectedResult = "Rental record for PIG\n" +
+                "\t" + MOVIE_NAME + "\t" + expectedAmount + "\nAmount owed is " + expectedAmount + "\nYou earned "
+                + eveluateFrequentRenterPoints(CINDERELLA_CODE, RENTAL_DAYS) + " frequent renter points.";
+        assertEquals(expectedResult, customer.printStatement());
+    }
+
+    @org.junit.Test
+    public void testRegularLessThenLimit() {
+        final String CUSTOMER_NAME = "PIG";
+        final int RENTAL_DAYS = 1;
+        final String MOVIE_NAME = "Cinderella";
+        Customer customer = new Customer(CUSTOMER_NAME);
+        final PriceCodes CINDERELLA_CODE = PriceCodes.REGULAR;
+        Movie movCinderella = new Movie(MOVIE_NAME, CINDERELLA_CODE);
+        Rental rental1 = new Rental(movCinderella, RENTAL_DAYS);
+        customer.addRental(rental1);
+
+        double expectedAmount = evaluateRegular(RENTAL_DAYS);
+
+        String expectedResult = "Rental record for PIG\n" +
+                "\t" + MOVIE_NAME + "\t" + expectedAmount + "\nAmount owed is " + expectedAmount + "\nYou earned "
+                + eveluateFrequentRenterPoints(CINDERELLA_CODE, RENTAL_DAYS) + " frequent renter points.";
+        assertEquals(expectedResult, customer.printStatement());
+    }
+
+    @org.junit.Test
+    public void testNewRelease() {
+        final String CUSTOMER_NAME = "PIG";
+        final int RENTAL_DAYS = 1;
+        final String MOVIE_NAME = "Cinderella";
+        Customer customer = new Customer(CUSTOMER_NAME);
+        final PriceCodes CINDERELLA_CODE = PriceCodes.NEW_RELEASE;
+        Movie movCinderella = new Movie(MOVIE_NAME, CINDERELLA_CODE);
+        Rental rental1 = new Rental(movCinderella, RENTAL_DAYS);
+        customer.addRental(rental1);
+
+        double expectedAmount = evaluateNewRelease(RENTAL_DAYS);
+
+        String expectedResult = "Rental record for PIG\n" +
+                "\t" + MOVIE_NAME + "\t" + expectedAmount + "\nAmount owed is " + expectedAmount + "\nYou earned "
+                + eveluateFrequentRenterPoints(CINDERELLA_CODE, RENTAL_DAYS) + " frequent renter points.";
+        assertEquals(expectedResult, customer.printStatement());
+    }
+
     private double evaluateChildren(int days) {
         double thisAmount = 0;
         thisAmount += 1.5;
-        if (days > 3)
-        {
+        if (days > 3) {
             thisAmount = (days - 3) * 1.5;
         }
         return thisAmount;
+    }
+
+    private double evaluateRegular(int days) {
+        double thisAmount = 2;
+        if (days > 2) {
+            thisAmount += (days - 2) * 1.5;
+        }
+        return thisAmount;
+    }
+
+    private double evaluateNewRelease(int days) {
+        return days * 3;
     }
 
 
