@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
-	//todo - код конвеншены в названиях - 5
+	//todo - РєРѕРґ РєРѕРЅРІРµРЅС€РµРЅС‹ РІ РЅР°Р·РІР°РЅРёСЏС… - 5
 	private String m_Name;
 	private List<Rental> m_Rentals = new ArrayList<Rental>();
 
@@ -12,7 +12,7 @@ public class Customer {
 		m_Name = name;
 	}
 
-	//todo - не используется - 2
+	//todo - РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ - 2
 	public String getName() {
 		return m_Name;
 	}
@@ -22,7 +22,7 @@ public class Customer {
 		m_Rentals.add(arg);
 	}
 
-	//todo - неинформативное название метода - 3, метод написан с большой буквы - 4.
+	//todo - РЅРµРёРЅС„РѕСЂРјР°С‚РёРІРЅРѕРµ РЅР°Р·РІР°РЅРёРµ РјРµС‚РѕРґР° - 3, РјРµС‚РѕРґ РЅР°РїРёСЃР°РЅ СЃ Р±РѕР»СЊС€РѕР№ Р±СѓРєРІС‹ - 4.
 	public String Statement()
 	{
 		double totalAmount = 0;
@@ -30,9 +30,9 @@ public class Customer {
 				
 		String result = "Rental record for " + m_Name + "\n";
 
-		//todo - название each
+		//todo - РЅР°Р·РІР°РЅРёРµ each
 		for(Rental each: m_Rentals) {
-			double thisAmount = 0; //todo -  использование слова this в названии
+			double thisAmount = 0; //todo -  РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ СЃР»РѕРІР° this РІ РЅР°Р·РІР°РЅРёРё
 			
 			// Determine amounts for each line
 			switch(each.getMovie().getPriceCode()) {
@@ -56,14 +56,14 @@ public class Customer {
 					}
 					break;
 
-				//todo - отсутствует обработка варианта по умолчанию - 1
+				//todo - РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚ РѕР±СЂР°Р±РѕС‚РєР° РІР°СЂРёР°РЅС‚Р° РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ - 1
 			}
 
 			// Add frequent renter points
-			frequentRenterPoints++;//todo - комментарии дублируют название переменной
+			frequentRenterPoints++;//todo - РєРѕРјРјРµРЅС‚Р°СЂРёРё РґСѓР±Р»РёСЂСѓСЋС‚ РЅР°Р·РІР°РЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№
 
 			// Add bonus for a two-day new-release rental
-			if ((each.getMovie().getPriceCode() == PriceCodes.NewRelease) && (each.getDaysRented() > 1)) //todo - сложное выражение в условном операторе
+			if ((each.getMovie().getPriceCode() == PriceCodes.NewRelease) && (each.getDaysRented() > 1)) //todo - СЃР»РѕР¶РЅРѕРµ РІС‹СЂР°Р¶РµРЅРёРµ РІ СѓСЃР»РѕРІРЅРѕРј РѕРїРµСЂР°С‚РѕСЂРµ
 			{
 				frequentRenterPoints ++;
 			}

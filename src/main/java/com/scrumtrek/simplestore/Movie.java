@@ -13,7 +13,7 @@ public class Movie {
 		return m_PriceCode;
 	}
 
-	//todo - инициализация происходит в конструкторе
+	//todo - РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїСЂРѕРёСЃС…РѕРґРёС‚ РІ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂРµ
 	public void setPriceCode(PriceCodes value) {
 		m_PriceCode = value;
 	}
