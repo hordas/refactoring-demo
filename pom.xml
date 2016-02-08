@@ -38,7 +38,7 @@
                         <param>com.scrumtrek.simplestore.*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>src/test/java/*</param>
+                        <param>com.scrumtrek.simplestore.*</param>
                     </targetTests>
                     <mutators>
                         <mutator>ALL</mutator>
