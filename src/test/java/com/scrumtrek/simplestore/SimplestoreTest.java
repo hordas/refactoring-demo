@@ -1,7 +1,4 @@
-import com.scrumtrek.simplestore.Customer;
-import com.scrumtrek.simplestore.Movie;
-import com.scrumtrek.simplestore.PriceCodes;
-import com.scrumtrek.simplestore.Rental;
+package com.scrumtrek.simplestore;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
