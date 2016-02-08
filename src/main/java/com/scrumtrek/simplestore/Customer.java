@@ -57,53 +57,14 @@ public class Customer {
 	}
 
 	private double evaluateRentalAmount(Rental rental) {
-		double thisAmount = 0;
-
-		// Determine amounts for rental line
-		switch(rental.getMovie().getPriceCode()) {
-            case REGULAR:
-				thisAmount = evaluateRegularAmount(rental, thisAmount);
-                break;
-
-            case NEW_RELEASE:
-				thisAmount = evaluateNewReleaseAmount(rental, thisAmount);
-				break;
-
-            case CHILDRENS:
-				thisAmount = evaluateChildrenAmount(rental, thisAmount);
-                break;
-
-			default:
-				throw new IllegalArgumentException("Not supported Price Code: " + rental.getMovie().getPriceCode());
-        }
-		return thisAmount;
-	}
-
-	private double evaluateChildrenAmount(Rental rental, double thisAmount) {
-		thisAmount += CHILDREN_PRICE;
-		if (rental.getDaysRented() > CHILDREN_DAYS_LIMIT) {
-            thisAmount = (rental.getDaysRented() - CHILDREN_DAYS_LIMIT) * CHILDREN_COEFFICIENT;
-        }
-		return thisAmount;
-	}
-
-	private double evaluateNewReleaseAmount(Rental rental, double thisAmount) {
-		thisAmount += rental.getDaysRented() * NEW_RELEASE_PRICE;
-		return thisAmount;
-	}
-
-	private double evaluateRegularAmount(Rental rental, double thisAmount) {
-		thisAmount += REGULAR_PRICE;
-		if (rental.getDaysRented() > REGULAR_DAYS_LIMIT) {
-            thisAmount += (rental.getDaysRented() - REGULAR_DAYS_LIMIT) * REGULAR_COEFFICIENT;
-        }
-		return thisAmount;
+		return rental.getMovie().evaluateAmount(rental);
 	}
 
 	private int addBonusForTwoDayNewRelease(Rental each) {
-		if ((each.getMovie().getPriceCode() == PriceCodes.NEW_RELEASE) && (each.getDaysRented() > 1)) {
-            frequentRenterPoints ++;
-        }
+		//todo применить в new release movie
+//		if ((each.getMovie().getPrice() == PriceCodes.NEW_RELEASE) && (each.getDaysRented() > 1)) {
+//            frequentRenterPoints ++;
+//        }
 		return frequentRenterPoints;
 	}
 

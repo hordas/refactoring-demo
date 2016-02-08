@@ -1,5 +1,7 @@
 package com.scrumtrek.simplestore;
 
+import com.scrumtrek.simplestore.movies.Movie;
+
 public class Rental {
 	private Movie m_Movie;//todo - code conventions
 	private int m_DaysRented;
