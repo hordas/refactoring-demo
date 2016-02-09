@@ -1,8 +1,9 @@
 package com.scrumtrek.simplestore;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class ReportTest {
 
@@ -120,5 +121,22 @@ public class ReportTest {
                 + "	movie-name	1.5\n"
                 + "Amount owed is 1.5\n"
                 + "You earned 1 frequent renter points.", statement);
+    }
+
+    @Test
+    public void testHTMLWithChildrensDaysRented3() throws Exception {
+        String name = "test1";
+        Customer c1 = new Customer(name);
+
+        c1.addRental(new Rental(new Movie("movie-name", PriceCodes.CHILDRENS), 3));
+
+        String statement = new Report().generateHTML(c1);
+        assertNotNull(statement);
+
+        assertEquals(
+                "<!DOCTYPE html>\n" +
+                        "<html>\n" +
+                        "<body>Rental record for test1<br/> movie-name <b>1.5</b><br/>Amount owed is <b>1.5</b>" +
+                        "<br/>You earned <b>1</b> frequent renter points.</body></html>", statement);
     }
 }
