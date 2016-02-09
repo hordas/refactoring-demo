@@ -27,6 +27,7 @@ public class RentalCalculator {
         result.put(PriceCodes.CHILDRENS, new ChildrenRentalGetter());
         result.put(PriceCodes.NEW_RELEASE, new NewReleaseRentalGetter());
         result.put(PriceCodes.REGULAR, new RegularRentalGetter());
+        result.put(PriceCodes.XXX, new XXXRentalGetter());
 
         return result;
     }
