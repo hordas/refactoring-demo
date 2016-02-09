@@ -6,7 +6,7 @@ import com.scrumtrek.simplestore.Customer;
  * Created by Admin on 09.02.2016.
  */
 public abstract class BaseReport {
-    private Customer customer;
+    protected Customer customer;
 
     protected String header;
     protected String footer;
@@ -19,10 +19,17 @@ public abstract class BaseReport {
         return header;
     }
 
+    public String getFooter() {
+        return footer;
+    }
+
     public static class ReportBuilder {
 
-        protected String result = "";
+
         private BaseReport report;
+        private String header = "";
+        private String footer = "";
+
 
 
         public ReportBuilder(BaseReport report) {
@@ -30,12 +37,17 @@ public abstract class BaseReport {
         }
 
         public ReportBuilder setHeader() {
-            result += report.getHeader();
+            header = report.getHeader();
+            return this;
+        }
+
+        public ReportBuilder setFooter() {
+            footer = report.getFooter();
             return this;
         }
 
         public String printReport() {
-            return result;
+            return header + footer;
         }
     }
 }

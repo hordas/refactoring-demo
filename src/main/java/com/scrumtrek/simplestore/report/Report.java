@@ -5,10 +5,6 @@ import com.scrumtrek.simplestore.Rental;
 
 public class Report {
 
-    private String header = "";
-    private String body = "";
-    private String footer = "";
-
     public String generate(Customer c) {
         String result = "Rental record for " + c.getName() + "\n";
 
