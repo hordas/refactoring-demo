@@ -1,5 +1,6 @@
 package com.scrumtrek.simplestore;
 
+import com.scrumtrek.simplestore.report.Report;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
