@@ -4,78 +4,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
-	public static final int REGULAR_PRICE = 2;
-	public static final int REGULAR_DAYS_LIMIT = 2;
-	public static final double REGULAR_COEFFICIENT = 1.5;
-	public static final int NEW_RELEASE_PRICE = 3;
-	public static final double CHILDREN_PRICE = 1.5;
-	public static final int CHILDREN_DAYS_LIMIT = 3;
-	public static final double CHILDREN_COEFFICIENT = 1.5;
 
-	private String customerName;
-	private List<Rental> movieRentals = new ArrayList<>();
-	private double totalAmount;
-	private int frequentRenterPoints;
+    private final String name;
+    private final List<Rental> rentals = new ArrayList<>();
 
+    private final RentalCalculator priceCodeCalculator = new RentalCalculator();
 
-	public Customer(String customerName) {
-		this.customerName = customerName;
-	}
+    public Customer(String name) {
+        this.name = name;
+    }
 
-	public String getCustomerName() {
-		return customerName;
-	}
+    public String getName() {
+        return name;
+    }
 
+    public void addRental(Rental arg) {
+        rentals.add(arg);
+    }
 
-	public void addRental(Rental arg){
-		movieRentals.add(arg);
-	}
+    public List<Rental> getRentals() {
+        return rentals;
+    }
 
-	public void evaluateStatement() {
-		totalAmount = 0;
-		frequentRenterPoints = 0;
+    public int getFrequentRenterPoints() {
+        int frequentRenterPoints = 0;
+        for (Rental each : rentals) {
+            frequentRenterPoints++;
 
-		for(Rental rental: movieRentals) {
-			double thisAmount = evaluateRentalAmount(rental);
+            // Add bonus for a two-day new-release rental
+            if ((each.getMovie().getPriceCode() == PriceCodes.NEW_RELEASE) && (each.getDaysRented() > 1)) {
+                frequentRenterPoints++;
+            }
+        }
 
-			frequentRenterPoints++;
+        return frequentRenterPoints;
+    }
 
-			frequentRenterPoints = addBonusForTwoDayNewRelease(rental);
+    public double getTotalAmount() {
+        double totalAmount = 0;
+        for (Rental each : rentals) {
+            double thisAmount = getAmount(each);
+            totalAmount += thisAmount;
+        }
+        return totalAmount;
+    }
 
-			totalAmount += thisAmount;
-		}
-	}
-
-	public String printStatement() {
-		String result = "Rental record for " + customerName + "\n";
-		for (Rental rental : movieRentals) {
-			result += printMovieDetails(rental, evaluateRentalAmount(rental));
-		}
-		evaluateStatement();
-		result += addFooterLines(totalAmount, frequentRenterPoints);
-		return result;
-	}
-
-	private double evaluateRentalAmount(Rental rental) {
-		return rental.getMovie().evaluateAmount(rental);
-	}
-
-	private int addBonusForTwoDayNewRelease(Rental each) {
-		//todo применить в new release movie
-//		if ((each.getMovie().getPrice() == PriceCodes.NEW_RELEASE) && (each.getDaysRented() > 1)) {
-//            frequentRenterPoints ++;
-//        }
-		return frequentRenterPoints;
-	}
-
-	private String printMovieDetails(Rental rental, double thisAmount) {
-		return "\t" + rental.getMovie().getTitle() + "\t" + thisAmount + "\n";
-	}
-
-	private String addFooterLines(double totalAmount, int frequentRenterPoints) {
-		String result = "Amount owed is " + totalAmount + "\n";
-		result += "You earned " + frequentRenterPoints + " frequent renter points.";
-		return result;
-	}
+    public double getAmount(Rental r) {
+        return priceCodeCalculator.getAmount(r);
+    }
 }
-

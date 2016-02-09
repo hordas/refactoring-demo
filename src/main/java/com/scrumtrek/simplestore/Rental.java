@@ -1,22 +1,20 @@
 package com.scrumtrek.simplestore;
 
-import com.scrumtrek.simplestore.movies.Movie;
-
 public class Rental {
-	private Movie m_Movie;//todo - code conventions
-	private int m_DaysRented;
 
-	public Rental(Movie movie, int daysRented) {
-		m_Movie = movie;
-		m_DaysRented = daysRented;
-	}
+    private final Movie movie;
+    private final int dyasRented;
 
-	public int getDaysRented() {
-		return m_DaysRented;
-	}
+    public Rental(Movie movie, int daysRented) {
+        this.movie = movie;
+        dyasRented = daysRented;
+    }
 
-	public Movie getMovie() {
-		return m_Movie;
-	}
+    public int getDaysRented() {
+        return dyasRented;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
 }
-
